@@ -4,13 +4,58 @@ $(function(){
 	var onMouseWheel = 0;
 	var pageWidth = 1003; 
 	const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FFBB33","#FF8800","#FF4444","#CC0000"];
-	var people =[
+	var people =[[],
 	["images/xingguang.jpg",
 				   "姓名：邢光",
 				   "年龄：20岁",
 				   "职业：学生",
 				   "爱好：篮球",
 				   "大学：东北师范大学",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala"
+	],
+	["images/xingguang.jpg",
+				   "姓名：邢光",
+				   "年龄：20岁",
+				   "职业：学生",
+				   "爱好：篮球",
+				   "大学：东北师范大学",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala"
+	],
+	["images/xingguang.jpg",
+				   "姓名：邢光",
+				   "年龄：20岁",
+				   "职业：学生",
+				   "爱好：篮球",
+				   "大学：东北师范大学",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala"
+	],
+	["images/xingguang.jpg",
+				   "姓名：邢光",
+				   "年龄：20岁",
+				   "职业：学生",
+				   "爱好：篮球",
+				   "大学：东北师范大学",
+				   "balabala:balabala",
+				   "balabala:balabala",
+				   "balabala:balabala",
 				   "balabala:balabala",
 				   "balabala:balabala",
 				   "balabala:balabala",
@@ -78,7 +123,9 @@ $(function(){
 	for(var i=0;i<people.length;i++){
 		var m = i + 1;
 		var bgcolorNum = Math.floor(Math.random()*10);
-		$(".cb-"+m).append("<div class='cfloat' style='background-color:"+colors[bgcolorNum]+";text-align:center;'><img height='100%' src='"+people[i][0]+"' /></div>");
+		if(i != 0){
+			$(".cb-"+m).append("<div class='cfloat' style='background-color:"+colors[bgcolorNum]+";text-align:center;'><img height='100%' src='"+people[i][0]+"' /></div>");
+		}
 		for (var j = 1; j < people[i].length; j++) {
 			var bgcolorNum = Math.floor(Math.random()*10);
 			console.log(people[i].length);
@@ -90,6 +137,9 @@ $(function(){
 		}
 		$(".cb-"+m).append("<div class='clear'></div>");
 	}
+	//添加简介色块动态效果
+	$(".p1").addClass("animation-4");
+	$(".p2").addClass("animation-3");
 	//上翻页
 	function slideToPro(){
 		if(pst > 1){
@@ -98,7 +148,12 @@ $(function(){
 			pst--;
   			$(".slide").addClass("slide-y-"+pst);
   			$(".btn-"+pst).css("background-color","black");
-		}
+  			$(".slide section .cb-"+pst+" .cfloat").addClass("animation-1").parent().parent().siblings().children(".centerBox").children(".cfloat").removeClass("animation-1");
+			$(".slide section .cb-"+pst+" .cfloat").hover(function(){
+				$(".slide section .cb-"+pst+" .cfloat").removeClass("animation-1");
+				$(this).addClass("animation-2").siblings().removeClass("animation-2");
+			});
+	}
 	}
 	//下翻页
 	function slideToNext(){
@@ -108,6 +163,11 @@ $(function(){
 			pst++;
   			$(".slide").addClass("slide-y-"+pst);
   			$(".btn-"+pst).css("background-color","black");
+  			$(".slide section .cb-"+pst+" .cfloat").addClass("animation-1").parent().parent().siblings().children(".centerBox").children(".cfloat").removeClass("animation-1");
+			$(".slide section .cb-"+pst+" .cfloat").hover(function(){
+				$(".slide section .cb-"+pst+" .cfloat").removeClass("animation-1");
+				$(this).addClass("animation-2").siblings().removeClass("animation-2");
+		});
 		}
 	}
 	//设置点击页面侧栏按钮事件
@@ -121,6 +181,11 @@ $(function(){
 			$(".rbtn").css("background-color","white");
 			$(".slide").addClass("slide-y-"+i);
 			$(".btn-"+i).css("background-color","black");
+			$(".slide section .cb-"+i+" .cfloat").addClass("animation-1").parent().parent().siblings().children(".centerBox").children(".cfloat").removeClass("animation-1");
+			$(".slide section .cb-"+i+" .cfloat").hover(function(){
+				$(".slide section .cb-"+i+" .cfloat").removeClass("animation-1");
+				$(this).addClass("animation-2").siblings().removeClass("animation-2");
+			});
 		});
 	});
 	function clickBtn(i){
