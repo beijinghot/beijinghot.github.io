@@ -4,16 +4,6 @@ $(function(){
 	var onMouseWheel = 0;
 	var pageWidth = 1003; 
 	const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FFBB33","#FF8800","#FF4444","#CC0000"];
-	var people =[[],
-	["images/xingguang.jpg",
-				   "姓名：邢光",
-				   "年龄：20岁",
-				   "职业：学生",
-				   "爱好：篮球",
-				   "大学：东北师范大学",
-				   "特长：html,css,js",
-	]
-	];
 	//添加移动端支持
 	document.body.addEventListener("touchstart", function(event) {
 		event.preventDefault();
@@ -61,14 +51,11 @@ $(function(){
 	for(var i=0;i<people.length;i++){
 		var m = i + 1;
 		var bgcolorNum = Math.floor(Math.random()*10);
-		console.log(typeof(people[i][0]));
 		if(typeof(people[i][0]) == 'string'){
 			$(".cb-"+m).append("<div class='cfloat' style='background-color:"+colors[bgcolorNum]+";text-align:center;'><img height='100%' src='"+people[i][0]+"' /></div>");
 		}
 		for (var j = 1; j < people[i].length; j++) {
 			var bgcolorNum = Math.floor(Math.random()*10);
-			console.log(people[i].length);
-			console.log(i);
 			$(".cb-"+m).append("<div class='cfloat' style='background-color:"+colors[bgcolorNum]+";'><p>"+people[i][j]+"</p></div>");
 			if(j==11){
 				break;
