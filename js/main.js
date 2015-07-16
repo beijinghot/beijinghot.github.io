@@ -11,69 +11,7 @@ $(function(){
 				   "职业：学生",
 				   "爱好：篮球",
 				   "大学：东北师范大学",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala"
-	],
-	["images/xingguang.jpg",
-				   "姓名：邢光",
-				   "年龄：20岁",
-				   "职业：学生",
-				   "爱好：篮球",
-				   "大学：东北师范大学",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala"
-	],
-	["images/xingguang.jpg",
-				   "姓名：邢光",
-				   "年龄：20岁",
-				   "职业：学生",
-				   "爱好：篮球",
-				   "大学：东北师范大学",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala"
-	],
-	["images/xingguang.jpg",
-				   "姓名：邢光",
-				   "年龄：20岁",
-				   "职业：学生",
-				   "爱好：篮球",
-				   "大学：东北师范大学",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala"
-	],
-	["images/xingguang.jpg",
-				   "姓名：邢光",
-				   "年龄：20岁",
-				   "职业：学生",
-				   "爱好：篮球",
-				   "大学：东北师范大学",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala",
-				   "balabala:balabala"
+				   "特长：html,css,js",
 	]
 	];
 	//添加移动端支持
@@ -123,7 +61,8 @@ $(function(){
 	for(var i=0;i<people.length;i++){
 		var m = i + 1;
 		var bgcolorNum = Math.floor(Math.random()*10);
-		if(i != 0){
+		console.log(typeof(people[i][0]));
+		if(typeof(people[i][0]) == 'string'){
 			$(".cb-"+m).append("<div class='cfloat' style='background-color:"+colors[bgcolorNum]+";text-align:center;'><img height='100%' src='"+people[i][0]+"' /></div>");
 		}
 		for (var j = 1; j < people[i].length; j++) {
