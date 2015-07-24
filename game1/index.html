@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>捡元宝游戏</title>
+	<meta name="viewport" content="width=device-width , initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="container">
+		<div id="ahead">
+			<!-- 触发模态弹出窗元素 -->
+			<button class="btn btn-primary" id="parstr" style="position:absolute;right:0;" type="button">开始游戏</button>
+			<button class="btn btn-primary" style="position:absolute;" id="setup" type="button">设置</button>
+			<!-- 模态弹出窗内容 -->
+			<div class="modal" data-backdrop="false" id="mymodal">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close returnGame" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			                <h4 class="modal-title">游戏设置</h4>
+			            </div>
+			            <div class="modal-body">
+			                <!-- 模式选择 下拉菜单 -->
+			                <div class="row">
+				                <p class="lead col-sm-12">模式选择：</p>
+				                <form role="form" class="col-sm-12">
+								  <div class="form-group">
+								    <select class="form-control" id="mode"> 
+									<!-- 模式内容 -->
+								    </select>
+								  </div>
+								</form>   
+								<hr />
+							</div>
+							<!-- 音效设置 -->
+							<div class="row">
+				                <p class="lead col-sm-12 col-lg-12 col-md-12">音效设置：</p>
+				               	  <div class="form-group col-sm-12 col-lg-12 col-md-12">
+								    <label class="radio-inline">
+								      <input type="radio" checked value="on" name="music">音效开
+								    </label>
+								    <label class="radio-inline">
+								      <input type="radio"  value="off" name="music">音效关
+								    </label>
+								  </div> 
+								<hr />
+							</div>
+							<!-- 最高分 -->
+							<div class="row">
+								<div id="gradecheck col-sm-12 col-sm-12 col-sm-12">
+									<button class="btn btn-default" id="gradesel" type="button">查看游戏记录</button>	
+								</div>
+							</div>
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button"  class="btn btn-default returnGame" data-dismiss="modal">返回游戏</button>
+			                <button type="button" id="startGame" class="btn btn-primary">开始游戏</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<!-- 分数模态框Start -->
+			<div class="modal" data-backdrop="false" id="grademodal">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			                <h4 class="modal-title">查看个人分数</h4>
+			            </div>
+			            <div class="modal-body" id="mygrade">
+			               	
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button" id="propage" class="btn btn-primary">返回上一页</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<!-- 分数模态框End -->
+			<!-- 旋转屏幕提示Start -->
+			<div class="modal" data-backdrop="false" id="rotate">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" id="closeRotate" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			                <h4 class="modal-title">提示</h4>
+			            </div>
+			            <div class="modal-body">
+			               <p>请旋转屏幕继续游戏</p>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<!-- 旋转屏幕提示End -->
+			<!-- 游戏结果框Start -->
+			<div class="modal" data-backdrop="false" aria-hidden="true" id="resultmodal">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			            	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			                <h4 class="modal-title">游戏结果</h4>
+			            </div>
+			            <div class="modal-body">
+			                <p id="moderes"></p>
+			                <p id="graderes"></p>
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button" id="reStartGame"  class="btn btn-default" data-dismiss="modal">重新开始</button>
+			                <button type="button" id="returnSelect" class="btn btn-primary">返回选项</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<!-- 游戏结果框End -->
+		</div>
+		<div id="canvas"></div>
+	</div>
+	<!-- <script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.1/jquery.min.js"></script> -->
+	<script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
+  <!-- 引入网站本身的js -->
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
