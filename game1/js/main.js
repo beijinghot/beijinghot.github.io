@@ -365,7 +365,7 @@ var gameArr = [{
 		$("#moderes").html("模式："+gameArr[m].name);
 		$("#graderes").html("结果：" + gameResult);
 		if(s == 1){
-			if(gameResult > localStorage.getItem("GoldGrade_"+m)){
+			if(gameResult < localStorage.getItem("GoldGrade_"+m) && gameResult !=0){
 			localStorage.setItem("GoldGrade_"+m, gameResult);
 		}
 		}
