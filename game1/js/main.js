@@ -78,29 +78,29 @@ var gameArr = [{
 		timeC = Math.floor((this.time.prevTime - timeP)/1000);
 		var timeR = this.ruleTime - timeC;
 		this.label_time.text = "剩余时间:"+ timeR;
-
+		if(timeC >= this.ruleTime && ifnew!=1){
+			gameResult = this.score;
+			onGameOver = 1;
+			this.game_over();
+		}
 		if(ifnew == 1){
 			onGamePause();
 			ifnew = 0;
 		}
-
-		if(timeC >= this.ruleTime){
-			gameResult = this.score;
-			this.game_over();
-			onGameOver = 1;
-		}
 	},
 	game_over : function(){
-		if(musicsel=='on'){
-			this.over_sound.play();
+		if(onGameOver == 1){
+			if(musicsel=='on'){
+				this.over_sound.play();
+			}
+			this.game.time.events.remove(this.timer);
+			$("#moderes").html("模式："+gameArr[m].name);
+			$("#graderes").html("结果：" + gameResult);
+			if(gameResult > localStorage.getItem("pickGoldGrade_0")){
+				localStorage.setItem("pickGoldGrade_0", gameResult);
+			}
+			$("#resultmodal").modal();
 		}
-		this.game.time.events.remove(this.timer);
-		$("#moderes").html("模式："+gameArr[m].name);
-		$("#graderes").html("结果：" + gameResult);
-		if(gameResult > localStorage.getItem("pickGoldGrade_0")){
-			localStorage.setItem("pickGoldGrade_0", gameResult);
-		}
-		$("#resultmodal").modal();
 	},
 	add_one_gold : function(){
 		this.gold = this.golds.getFirstDead();
