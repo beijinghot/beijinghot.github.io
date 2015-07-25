@@ -53,6 +53,12 @@
 									<button class="btn btn-default" id="gradesel" type="button">查看游戏记录</button>	
 								</div>
 							</div>
+							<div class="row">
+								<div id="gradecheck col-sm-12 col-sm-12 col-sm-12">
+									<button class="btn btn-default" id="ranksel" type="button">查看排行榜</button>	
+								</div>
+							</div>
+
 			            </div>
 			            <div class="modal-footer">
 			                <button type="button"  class="btn btn-default returnGame" data-dismiss="modal">返回游戏</button>
@@ -73,12 +79,30 @@
 			               	
 			            </div>
 			            <div class="modal-footer">
-			                <button type="button" id="propage" class="btn btn-primary">返回上一页</button>
+			                <button type="button" class="btn btn-primary propage">返回上一页</button>
 			            </div>
 			        </div><!-- /.modal-content -->
 			    </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 			<!-- 分数模态框End -->
+			<!-- 排行榜模态框Start -->
+			<div class="modal" data-backdrop="false" id="rankmodal">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			                <h4 class="modal-title">查看排行榜</h4>
+			            </div>
+			            <div class="modal-body" id="ranklist">
+			               	
+			            </div>
+			            <div class="modal-footer">
+			                <button type="button" class="btn btn-primary propage">返回上一页</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			<!-- 排行榜模态框End -->
 			<!-- 旋转屏幕提示Start -->
 			<div class="modal" data-backdrop="false" id="rotate">
 			    <div class="modal-dialog">
