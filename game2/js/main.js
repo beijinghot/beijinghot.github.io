@@ -36,7 +36,7 @@ game.States.preload = function(){//加载游戏资源
     	game.load.image('pause','assets/pause.png'); //游戏暂停按钮
     	game.load.image('background','assets/bgpic.png'); //游戏背景
     	game.load.image('title','assets/title.png'); //游戏背景
-    	// game.load.spritesheet('bird','assets/bird.png',34,24,3); //鸟
+    	game.load.spritesheet('player','assets/player.png',97,123,2); //飞机
     	// game.load.audio('hit_ground_sound', 'assets/ouch.wav'); //撞击地面的音效
 	}
 	this.create = function(){
@@ -62,6 +62,11 @@ game.States.menu = function(){//显示开始菜单
 game.States.play = function(){
 	this.create = function(){
 		game.add.tileSprite(0,0,game.width,game.height,'background').autoScroll(0,20); //背景图
+		this.player = game.add.sprite(0,517,'player'); //添加飞机
+		// game.physics.enable([this.player], Phaser.Physics.ARCADE);//禁止飞机飞出界外
+		// this.player.body.collideWorldBounds = true;
+		this.player.inputEnabled = true;
+		this.player.input.enableDrag();
 	}
 }
 
