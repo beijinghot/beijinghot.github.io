@@ -3,6 +3,18 @@ var musicSwitch = 1;//音乐开关
 var score = "0000000000";
 var ftStyle = { font: "40px Arial", fill: "#000000" };
 var betadirection=0,gammadirection=0;
+
+//读取用户信息
+var username,bestScore;
+if(localStorage.getItem("username")){
+	username = localStorage.getItem("username");
+	bestScore = localStorage.getItem("bestScore");
+}else{
+	username = Date.parse(new Date());
+	localStorage.setItem("username", username);
+	localStorage.setItem("bestScore", 0);
+}
+
 var game = new Phaser.Game(gameWidth,gameHeight,Phaser.AUTO,'canvas');//实例化game
 game.States = {};//存放状态
 	
@@ -60,6 +72,24 @@ game.States.menu = function(){//显示开始菜单
 			this.rank = game.add.sprite(52,game.height*0.2/2,'listRank'); //排行榜
 		});
 		btn.anchor.setTo(0.5,0.5);
+	},
+	this.showRank = function(){
+		var rst = new Object();
+	$.ajax({
+		     url:"http://xingguang123.sinaapp.com/plane.php?name="+username+"&score="+bestScore,
+		     dataType: 'jsonp', 
+		     success:function(json){
+		     	rst = {
+		     		top : json[0],
+		     		rank : json[1]
+		     	}
+				console.log(rst.top+"|"+rst.rank);
+		     },
+		     error:function(){
+		         alert("Error");
+		         console.log(this.url);
+		     },
+		});
 	}
 }
 
@@ -87,9 +117,8 @@ game.States.play = function(){
 	    this.label_score = game.add.text(100 , 5 , score+1, ftStyle);
 
 	    var pauseBtn = game.add.button(5,5,'pause',function(){//暂停按钮
-			game.paused = true;
+			game.paused = true;	
 		});
-
 		window.addEventListener("deviceorientation", this.deviceOrientationListener);
 	}
 	this.update = function(){
@@ -97,7 +126,7 @@ game.States.play = function(){
 		this.player.body.velocity.x = gammadirection*10;
 		this.player.body.velocity.y = betadirection*10;
 	}
-	this.fly = function(){
+	this.fly = function(){  //飞机飞行ing
 
 	}
 	this.add_one_bullet = function(){   //发射单炮
