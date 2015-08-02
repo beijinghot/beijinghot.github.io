@@ -1,4 +1,4 @@
-var gameWidth = 360,gameHeight = 505;//定义游戏主尺寸
+var gameWidth = 360,gameHeight = 520;//定义游戏主尺寸
 var musicSwitch = 1;//音乐开关
 var score = "0000000000";
 var ftStyle = { font: "40px Arial", fill: "#000000" };
@@ -68,13 +68,13 @@ game.States.play = function(){
 		game.add.tileSprite(0,0,game.width,game.height,'background').autoScroll(0,20); //背景图
 		this.player = game.add.sprite(0,game.height-89,'player'); //添加飞机
 		game.physics.enable(this.player, Phaser.Physics.ARCADE);
-		// game.physics.enable([this.player], Phaser.Physics.ARCADE);//禁止飞机飞出界外
-		// this.player.body.collideWorldBounds = true;
+		game.physics.enable([this.player], Phaser.Physics.ARCADE);//禁止飞机飞出界外
+		this.player.body.collideWorldBounds = true;
 		this.player.inputEnabled = true;
 		this.player.input.enableDrag();
-		this.player.enableBody = true;
 		game.physics.arcade.enable(this.player);
 		this.player.animations.add('fly', [1,2], 10, true);
+
 		this.bullets = game.add.group();
 	    this.bullets.enableBody = true;
 	    this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
@@ -84,9 +84,9 @@ game.States.play = function(){
 	    this.bullets.setAll('outOfBoundsKill', true);
 	    this.timer = game.time.events.loop(300,this.add_two_bullet,this);
 
-	    this.label_score = game.add.text(100 , 5 , score, ftStyle);
+	    this.label_score = game.add.text(100 , 5 , score+1, ftStyle);
 
-	    var pauseBtn = game.add.button(0,0,'pause',function(){//暂停按钮
+	    var pauseBtn = game.add.button(5,5,'pause',function(){//暂停按钮
 			game.paused = true;
 		});
 
@@ -94,6 +94,8 @@ game.States.play = function(){
 	}
 	this.update = function(){
 		this.player.animations.play('fly');
+		this.player.body.velocity.x = gammadirection*10;
+		this.player.body.velocity.y = betadirection*10;
 	}
 	this.fly = function(){
 
@@ -115,8 +117,6 @@ game.States.play = function(){
 	this.deviceOrientationListener = function(event) {
 	  	betadirection = Math.round(event.beta);//负前正后
 		gammadirection = Math.round(event.gamma);//负左正右
-		// this.player.body.velocity.x = gammadirection*10;
-		// this.player.body.velocity.y = betadirection*10;
 	}
 }
 
