@@ -60,6 +60,11 @@ game.States.preload = function(){//加载游戏资源
     	game.load.image('boomNum','assets/boomNum.png'); //游戏背景
     	game.load.spritesheet('player','assets/player.png',70,89,2); //飞机
     	// game.load.audio('hit_ground_sound', 'assets/ouch.wav'); //撞击地面的音效
+    	// **CTS增加**
+    	game.load.image('enemyBoss','assets/enemyBoss.png'); 
+    	game.load.image('enemySmall','assets/enemySmall.png');
+    	game.load.image('enemyMiddle','assets/enemyMiddle.png');
+    	//**
 	}
 	this.create = function(){
 		game.state.start('menu');
@@ -145,6 +150,29 @@ game.States.play = function(){
 	    var pauseBtn = game.add.button(5,5,'pause',function(){//暂停按钮
 			game.paused = true;	
 		});
+		//敌机**以下为CTS修改
+		//小敌机
+		var intervalSmall = 3000;
+		var intervalMiddle = 6000;
+		var intervalBoss = 30000;
+		this.enemySmalls = game.add.group();
+		this.createEnemys(this.enemySmalls, 10, 'enemySmall');
+	    this.timerEnemy = game.time.events.loop(rnd(intervalSmall,intervalSmall * 2), function(){
+	    	this.add_enemy(this.enemySmalls, 50, 75, 0);
+	    },this);
+	    //中等敌机
+		this.enemyMiddles = game.add.group();
+		this.createEnemys(this.enemyMiddles, 5, 'enemyMiddle');
+	    this.timerEnemy = game.time.events.loop(rnd(intervalMiddle,intervalMiddle * 2),function(){
+	    	this.add_enemy(this.enemyMiddles, 30, 100, 90);
+	    },this);	    
+		//boss敌机
+		this.enemyBosses = game.add.group();
+		this.createEnemys(this.enemyBosses, 3, 'enemyBoss');
+	    this.timerEnemy = game.time.events.loop(rnd(intervalBoss,intervalBoss * 2),function(){
+	    	this.add_enemy(this.enemyBosses, 10, 230, 300);
+	    },this); 
+	    //**以上为CTS修改
 		window.addEventListener("deviceorientation", this.deviceOrientationListener);
 	},
 	this.update = function(){
@@ -216,8 +244,25 @@ game.States.play = function(){
 	this.allBoom = function(){
 		console.log("boom!!!");
 	}
+	//** 以下为CTS修改
+	this.add_enemy = function(enemyType, v, picWidth, picHeigth){
+		this.enemy = enemyType.getFirstDead();
+  	 	this.enemy.reset(rnd(0, game.width - picWidth), -1 * picHeigth);
+  	 	this.enemy.body.velocity.y = v;
+	}
+	this.createEnemys = function(enemyType, number, pic){
+		// this.enemyType = game.add.group();
+		enemyType.enableBody = true;
+		enemyType.physicsBodyType = Phaser.Physics.ARCADE;
+		enemyType.createMultiple(number, pic);
+		enemyType.setAll('checkWorldBounds', true);
+	    enemyType.setAll('outOfBoundsKill', true);		
+	}
 }
-
+function rnd(a,b){
+		return a + Math.floor(Math.random() * (b - a));
+}
+//以上为CTS修改
 game.state.add('boot',game.States.boot);
 game.state.add('preload',game.States.preload);
 game.state.add('menu',game.States.menu);
