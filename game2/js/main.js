@@ -5,6 +5,7 @@ var ftStyle = { font: "40px Arial", fill: "#000000" };
 var betadirection=0,gammadirection=0;
 var bmNum = "1";
 var onBoom = 0;
+var bulletN = 1;
 
 //读取用户信息
 var username,bestScore;
@@ -133,7 +134,7 @@ game.States.play = function(){
 
 	    this.timer = game.time.events.loop(300,this.add_one_bullet,this);
 
-	    this.label_score = game.add.text(100 , 5 , score+1, ftStyle);
+	    this.label_score = game.add.text(70 , 5 , score+1, ftStyle);
 		this.label_boomNum = game.add.text(60 , 70, " X "+bmNum, ftStyle);
 	    var pauseBtn = game.add.button(5,70,'boomNum',function(){//暂停按钮
 	    	if(bmNum !=0){
@@ -161,9 +162,12 @@ game.States.play = function(){
 		if(randm > 998){
 			this.add_boom();
 		}else if(randm < 1){
-			this.add_double();
+			if(bulletN == 1 ){
+				this.add_double();
+				bulletN = 2;
+			}
 		}
-		
+
 		this.game.physics.arcade.overlap(this.player,this.booms,this.boomplus, null, this);
 		this.game.physics.arcade.overlap(this.player,this.doubles,this.doubleplus, null, this);
 	},
