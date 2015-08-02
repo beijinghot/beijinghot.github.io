@@ -117,7 +117,21 @@ game.States.play = function(){
 	    this.bullets.createMultiple(50, 'bullet');
 	    this.bullets.setAll('checkWorldBounds', true);
 	    this.bullets.setAll('outOfBoundsKill', true);
-	    this.timer = game.time.events.loop(300,this.add_two_bullet,this);
+
+	    this.booms = game.add.group(); 
+		this.booms.enableBody = true;
+		this.booms.createMultiple(20,'boom');
+		this.booms.setAll('checkWorldBounds', true);
+	    this.booms.setAll('outOfBoundsKill', true);
+
+	    this.doubles = game.add.group(); 
+		this.doubles.enableBody = true;
+		this.doubles.createMultiple(20,'double');
+		this.doubles.setAll('checkWorldBounds', true);
+	    this.doubles.setAll('outOfBoundsKill', true);
+
+
+	    this.timer = game.time.events.loop(300,this.add_one_bullet,this);
 
 	    this.label_score = game.add.text(100 , 5 , score+1, ftStyle);
 		this.label_boomNum = game.add.text(60 , 70, " X "+bmNum, ftStyle);
@@ -139,8 +153,19 @@ game.States.play = function(){
 			this.allBoom();
 			onBoom = 0;
 		}
+
 		this.player.body.velocity.x = gammadirection*10;
 		this.player.body.velocity.y = betadirection*10;
+
+		var randm = Math.floor(Math.random()*1000);
+		if(randm > 998){
+			this.add_boom();
+		}else if(randm < 1){
+			this.add_double();
+		}
+		
+		this.game.physics.arcade.overlap(this.player,this.booms,this.boomplus, null, this);
+		this.game.physics.arcade.overlap(this.player,this.doubles,this.doubleplus, null, this);
 	},
 	this.fly = function(){  //飞机飞行ing
 
@@ -158,6 +183,27 @@ game.States.play = function(){
     	this.bullet = this.bullets.getFirstDead();
   	 	this.bullet.reset(this.player.x + 33 + 10, this.player.y );
     	this.bullet.body.velocity.y = -500;
+	},
+	this.add_double = function(){
+		var posX = Math.floor(Math.random()*300);
+		this.double = this.doubles.getFirstDead();
+		this.double.reset(posX,0);
+		this.double.body.velocity.y = 200;
+	},
+	this.add_boom = function(){
+		var posX = Math.floor(Math.random()*300);
+		this.boom = this.booms.getFirstDead();
+		this.boom.reset(posX,0);
+		this.boom.body.velocity.y = 200;
+	},
+	this.boomplus = function(player,boom){
+		boom.kill();
+	    bmNum++;
+		this.label_boomNum.text = " X "+bmNum;
+	},
+	this.doubleplus = function(player,double){
+		double.kill();
+		this.timer.callback = this.add_two_bullet;
 	},
 	this.deviceOrientationListener = function(event) {
 	  	betadirection = Math.round(event.beta);//负前正后
