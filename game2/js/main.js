@@ -123,6 +123,7 @@ game.States.play = function(){
 		this.player.input.enableDrag();
 		game.physics.arcade.enable(this.player);
 		this.player.animations.add('fly', [1,2], 10, true);
+		this.player.animations.play('fly');//把这条语句从update移动到这来了byCTS**
 
 		this.bullets = game.add.group();
 	    this.bullets.enableBody = true;
@@ -167,7 +168,7 @@ game.States.play = function(){
 	    this.timerEnemySmall = game.time.events.loop(intervalSmall, function(){
 	    	this.add_enemy(this.enemySmalls, vSmall++, 75, 0, 10);
 	    }, this);
-	    //中等敌机
+	    //中等敌机//难度增加通过下降速度一点点增加vSmall++
 		this.enemyMiddles = game.add.group();
 		this.createEnemys(this.enemyMiddles, 5, 'enemyMiddle');
 	    this.timerEnemy = game.time.events.loop(intervalMiddle, function(){
@@ -183,7 +184,7 @@ game.States.play = function(){
 		window.addEventListener("deviceorientation", this.deviceOrientationListener);
 	},
 	this.update = function(){
-		this.player.animations.play('fly');
+		
 		this.label_boomNum.text = " X "+bmNum;
 		if(onBoom == 1){
 			this.allBoom();
