@@ -6,6 +6,14 @@ var betadirection=0,gammadirection=0;
 var bmNum = "1";
 var onBoom = 0;
 var bulletN = 1;
+//敌机出现的间隔时间,和敌机的初始速度CTS修改**
+var intervalSmall = 2000;
+var intervalMiddle = 6000;
+var intervalBoss = 40000;
+var vSmall = 50;
+var vMiddle = 30;
+var vBoss = 20;
+//以上为CTS修改****
 
 //读取用户信息
 var username,bestScore;
@@ -107,7 +115,7 @@ game.States.menu = function(){//显示开始菜单
 game.States.play = function(){
 	this.create = function(){
 		game.add.tileSprite(0,0,game.width,game.height,'background').autoScroll(0,20); //背景图
-		this.player = game.add.sprite(0,game.height-89,'player'); //添加飞机
+		this.player = game.add.sprite(game.width/2-35,game.height-89,'player'); //添加飞机
 		game.physics.enable(this.player, Phaser.Physics.ARCADE);
 		game.physics.enable([this.player], Phaser.Physics.ARCADE);//禁止飞机飞出界外
 		this.player.body.collideWorldBounds = true;
@@ -150,27 +158,26 @@ game.States.play = function(){
 	    var pauseBtn = game.add.button(5,5,'pause',function(){//暂停按钮
 			game.paused = true;	
 		});
-		//敌机**以下为CTS修改
+		//敌机**以下为CTS修改	
+		//this.createEnemys(enemyType, number, pic) 敌机类型，数量，图片名称
+		//this.add_enemy(enemyType, v, picWidth, picHeigth, life) 敌机类型，初始速度，图片宽，图片高，生命数
 		//小敌机
-		var intervalSmall = 3000;
-		var intervalMiddle = 6000;
-		var intervalBoss = 30000;
 		this.enemySmalls = game.add.group();
 		this.createEnemys(this.enemySmalls, 10, 'enemySmall');
-	    this.timerEnemy = game.time.events.loop(rnd(intervalSmall,intervalSmall * 2), function(){
-	    	this.add_enemy(this.enemySmalls, 50, 75, 0);
-	    },this);
+	    this.timerEnemySmall = game.time.events.loop(intervalSmall, function(){
+	    	this.add_enemy(this.enemySmalls, vSmall++, 75, 0, 10);
+	    }, this);
 	    //中等敌机
 		this.enemyMiddles = game.add.group();
 		this.createEnemys(this.enemyMiddles, 5, 'enemyMiddle');
-	    this.timerEnemy = game.time.events.loop(rnd(intervalMiddle,intervalMiddle * 2),function(){
-	    	this.add_enemy(this.enemyMiddles, 30, 100, 90);
+	    this.timerEnemy = game.time.events.loop(intervalMiddle, function(){
+	    	this.add_enemy(this.enemyMiddles, vMiddle++, 100, 90, 20);
 	    },this);	    
 		//boss敌机
 		this.enemyBosses = game.add.group();
 		this.createEnemys(this.enemyBosses, 3, 'enemyBoss');
-	    this.timerEnemy = game.time.events.loop(rnd(intervalBoss,intervalBoss * 2),function(){
-	    	this.add_enemy(this.enemyBosses, 10, 230, 300);
+	    this.timerEnemy = game.time.events.loop(intervalBoss, function(){
+	    	this.add_enemy(this.enemyBosses, vBoss++, 230, 300, 40);
 	    },this); 
 	    //**以上为CTS修改
 		window.addEventListener("deviceorientation", this.deviceOrientationListener);
@@ -198,6 +205,10 @@ game.States.play = function(){
 
 		this.game.physics.arcade.overlap(this.player,this.booms,this.boomplus, null, this);
 		this.game.physics.arcade.overlap(this.player,this.doubles,this.doubleplus, null, this);
+		//敌机与子弹碰撞检测
+		this.game.physics.arcade.overlap(this.bullets, this.enemySmalls,this.bulletHitMiddle, null, this);
+		this.game.physics.arcade.overlap(this.bullets, this.enemyMiddles,this.bulletHitMiddle, null, this);
+		this.game.physics.arcade.overlap(this.bullets, this.enemyBosses,this.bulletHitMiddle, null, this);
 	},
 	this.fly = function(){  //飞机飞行ing
 
@@ -245,19 +256,28 @@ game.States.play = function(){
 		console.log("boom!!!");
 	}
 	//** 以下为CTS修改
-	this.add_enemy = function(enemyType, v, picWidth, picHeigth){
+	this.add_enemy = function(enemyType, v, picWidth, picHeigth, life){
 		this.enemy = enemyType.getFirstDead();
   	 	this.enemy.reset(rnd(0, game.width - picWidth), -1 * picHeigth);
   	 	this.enemy.body.velocity.y = v;
-	}
+  	 	this.enemy.lives = life;
+	},
 	this.createEnemys = function(enemyType, number, pic){
-		// this.enemyType = game.add.group();
 		enemyType.enableBody = true;
 		enemyType.physicsBodyType = Phaser.Physics.ARCADE;
 		enemyType.createMultiple(number, pic);
 		enemyType.setAll('checkWorldBounds', true);
-	    enemyType.setAll('outOfBoundsKill', true);		
-	}
+	    enemyType.setAll('outOfBoundsKill', true);	
+	},
+	//子弹打中敌机的函数
+    this.bulletHitMiddle = function(bullet,enemy){
+    	bullet.kill();
+    	if(enemy.lives > 1){
+    		enemy.lives--;
+    	} else {
+    		enemy.kill();
+    	}
+    }
 }
 function rnd(a,b){
 		return a + Math.floor(Math.random() * (b - a));
