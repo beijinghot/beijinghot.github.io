@@ -65,7 +65,7 @@ game.States.boot = function(){ //移动设备适应
 
 game.States.preload = function(){//加载游戏资源
 	this.preload = function(){
-		var preloadSprite = game.add.sprite(35,game.height/2,'loading'); //创建显示loading进度的sprite
+		var preloadSprite = game.add.sprite(70,game.height/2,'loading'); //创建显示loading进度的sprite
 		game.load.setPreloadSprite(preloadSprite);
 		//以下为要加载的资源
     	game.load.image('background','assets/bgpic.png'); //游戏背景
@@ -389,23 +389,16 @@ game.States.play = function(){   //游戏程序主函数
 	this.everyBoom = function(a){  //引爆每架敌机
 		for (var i = 0; i < a.children.length; i++) {
 			a.children[i].animations.add('stopBoom', [0], 10, true);
-			a.children[i].animations.add('bBoom', [0,1,2,3,4], 10, true);
-			a.children[i].animations.add('mBoom', [0,1,2], 10, true);
-			a.children[i].animations.add('sBoom', [0,1], 10, true);
-
 			if(a.children[i].key == 'enemySmall'){
+				a.children[i].animations.add('sBoom', [0,1], 10, true);
     			a.children[i].animations.play('sBoom');
     		}else if(a.children[i].key == 'enemyMiddle'){
+    			a.children[i].animations.add('mBoom', [0,1], 10, true);
     			a.children[i].animations.play('mBoom');
     		}else if(a.children[i].key == 'enemyBoss'){
+    			a.children[i].animations.add('bBoom', [0,1,2,3], 10, true);
 				a.children[i].animations.play('bBoom');
     		}
-    		//可实现分数前导0代码段，缺点是有时候会导致浏览器卡死，暂停用
-    		// var preZero = "0";   
-			// for (var i = 1; i < 10 - n.toString().length; i++) {
-			// 	preZero +="0";
-			// };
-			// score = preZero + n.toString();
 		};
 		score = score + 10;
 	},
@@ -442,8 +435,9 @@ game.States.play = function(){   //游戏程序主函数
 			game_over.play();
 		}
 		this.gameOverShow = game.add.sprite(52,game.height*0.5/2,'gameOver'); //分数面板
-		this.label_overScore = game.add.text(190 , 144 , score.toString(), ftStyle1);//分数显示
-		this.label_overScore = game.add.text(190 , 170 , bestScore.toString(), ftStyle1);//分数显示
+		this.label_overScore = game.add.text(190 , 144 , score , ftStyle1);//分数显示
+		bestScore *= 1; 
+		this.label_overScore = game.add.text(190 , 170 , bestScore , ftStyle1);//分数显示
 		overRestartBtn = game.add.button(game.width/2,game.height*0.85/2,'restart',function(){//重新开始按钮
 			resetStatus();//重置游戏状态
 			game.state.start('play');
@@ -475,15 +469,14 @@ game.States.play = function(){   //游戏程序主函数
 	this.gameOverEveryBoom = function(a){
 			for (var i = 0; i < a.children.length; i++) {
 			a.children[i].animations.add('stopBoom', [0], 10, true);
-			a.children[i].animations.add('bBoom', [0,1,2,3,4], 10, true);
-			a.children[i].animations.add('mBoom', [0,1,2], 10, true);
-			a.children[i].animations.add('sBoom', [0,1], 10, true);
-
 			if(a.children[i].key == 'enemySmall'){
+				a.children[i].animations.add('sBoom', [0,1], 10, true);
     			a.children[i].animations.play('sBoom');
     		}else if(a.children[i].key == 'enemyMiddle'){
+    			a.children[i].animations.add('mBoom', [0,1], 10, true);
     			a.children[i].animations.play('mBoom');
     		}else if(a.children[i].key == 'enemyBoss'){
+    			a.children[i].animations.add('bBoom', [0,1,2,3], 10, true);
 				a.children[i].animations.play('bBoom');
     		}
 		  }
@@ -542,22 +535,22 @@ game.States.play = function(){   //游戏程序主函数
     		enemy.lives--;
     	} else {
     		enemy.animations.add('stopBoom', [0], 10, true);
-    		enemy.animations.add('bossBoom', [0,1,2,3,4], 10, true);
-    		enemy.animations.add('middleBoom', [0,1,2], 10, true);
-    		enemy.animations.add('smallBoom', [0,1], 10, true);
     		if(enemy.key == 'enemySmall'){
+    			enemy.animations.add('smallBoom', [0,1], 10, true);
     			enemy.animations.play('smallBoom');
     			if(musicSwitch){
 					enemy1_down.play();
 				}
     			score = score*1+1;
     		}else if(enemy.key == 'enemyMiddle'){
+    			enemy.animations.add('middleBoom', [0,1,2], 10, true);
     			enemy.animations.play('middleBoom');
     			if(musicSwitch){
 					enemy2_down.play();
 				}
     			score = score*1+2;
     		}else if(enemy.key == 'enemyBoss'){
+    			enemy.animations.add('bossBoom', [0,1,2,3], 10, true);
 				enemy.animations.play('bossBoom');
 				if(musicSwitch){
 					enemy3_down.play();
