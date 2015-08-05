@@ -61,7 +61,7 @@ game.States.boot = function(){ //移动设备适应
 	this.create = function(){
 		game.state.start('preload'); //跳转到资源加载页面
 	};
-}
+};
 
 game.States.preload = function(){//加载游戏资源
 	this.preload = function(){
@@ -99,11 +99,11 @@ game.States.preload = function(){//加载游戏资源
     	game.load.audio('get_bomb', 'assets/get_bomb.mp3');
     	game.load.audio('get_double_laser', 'assets/get_double_laser.mp3');
     	game.load.audio('use_bomb', 'assets/use_bomb.mp3');
-	}
+	};
 	this.create = function(){
 		game.state.start('menu');
-	}
-}
+	};
+};
 
 game.States.menu = function(){//显示开始菜单
 	this.create = function(){
@@ -141,7 +141,7 @@ game.States.menu = function(){//显示开始菜单
 		});
 		btn.anchor.setTo(0.5,0.5);
 	}
-}
+};
 game.States.play = function(){   //游戏程序主函数
 	this.create = function(){
 		this.background = game.add.tileSprite(0,0,game.width,game.height,'background');
@@ -245,7 +245,7 @@ game.States.play = function(){   //游戏程序主函数
 		this.createEnemys(this.enemyBosses, 10, 'enemyBoss');
 	    //**以上为CTS修改
 		window.addEventListener("deviceorientation", this.deviceOrientationListener);//添加重力感应监听
-	},
+	};
 	this.update = function(){
 
 		this.label_boomNum.text = " X "+bmNum;
@@ -301,29 +301,18 @@ game.States.play = function(){   //游戏程序主函数
 			onStopBoom = 0;
 		}
 		//键盘操作
-		if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
-	    {
+		if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
 	        this.player.body.velocity.x = -200;
-	    }
-	    else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
-	    {
+	    }else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
 	        this.player.body.velocity.x = 200;
-	    }
-	    else if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
-	    {
+	    }else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
 	        this.player.body.velocity.y = -200;
-	    }
-	    else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
-	    {
+	    }else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
 	        this.player.body.velocity.y = 200;
-	    }
-	    else
-	    {
+	    }else{
 	    	this.player.body.velocity.x = 0;
 			this.player.body.velocity.y = 0;
 	    }
-
-
 		//碰撞检测部分
 		//player与buff
 		this.game.physics.arcade.overlap(this.player,this.booms,this.boomplus, null, this);
@@ -341,7 +330,7 @@ game.States.play = function(){   //游戏程序主函数
 		game.world.bringToTop(pauseBtn);
 		game.world.bringToTop(this.label_boomNum);
 		game.world.bringToTop(this.label_score);
-	},
+	};
 	this.add_one_bullet = function(){   //发射单炮
 		if(!onGamePause){
 			if(musicSwitch){
@@ -351,7 +340,7 @@ game.States.play = function(){   //游戏程序主函数
 	  	 	this.bullet.reset(this.player.x + 33, this.player.y );
 	    	this.bullet.body.velocity.y = -500;
 		}
-	},
+	};
 	this.add_two_bullet = function(){   //发射双炮
 		if(!onGamePause){
 			this.bullet = this.bullets.getFirstDead();
@@ -363,7 +352,7 @@ game.States.play = function(){   //游戏程序主函数
 	    	this.bullet.body.velocity.y = -500;
 		}
 		
-	},
+	};
 	this.add_double = function(){  //添加双弹buff
 		if(!onGamePause){
 			var posX = Math.floor(Math.random()*300);
@@ -371,7 +360,7 @@ game.States.play = function(){   //游戏程序主函数
 			this.double.reset(posX,0);
 			this.double.body.velocity.y = 200;
 		}
-	},
+	};
 	this.add_boom = function(){  //添加爆炸物
 		if(!onGamePause){
 			var posX = Math.floor(Math.random()*300);
@@ -379,7 +368,7 @@ game.States.play = function(){   //游戏程序主函数
 			this.boom.reset(posX,0);
 			this.boom.body.velocity.y = 200;
 		}
-	},
+	};
 	this.boomplus = function(player,boom){   //爆炸物增加
 		if(musicSwitch){
 			get_bomb.play();
@@ -387,18 +376,18 @@ game.States.play = function(){   //游戏程序主函数
 		boom.kill();
 	    bmNum++;
 		this.label_boomNum.text = " X "+bmNum;
-	},
+	};
 	this.doubleplus = function(player,double){  //增加双弹
 		if(musicSwitch){
 			get_double_laser.play();
 		}
 		double.kill();
 		this.timer.callback = this.add_two_bullet;
-	},
+	};
 	this.deviceOrientationListener = function(event) {  //重力检测
 	  	betadirection = Math.round(event.beta);
 		gammadirection = Math.round(event.gamma);
-	},
+	};
 	this.allBoom = function(){  //全屏爆炸
 		if(musicSwitch){
 			use_bomb.play();
@@ -409,7 +398,7 @@ game.States.play = function(){   //游戏程序主函数
 		setTimeout(function(){
 			onStopBoom = 1;
 		},200);
-	},
+	};
 	this.everyBoom = function(a){  //引爆每架敌机
 		for (var i = 0; i < a.children.length; i++) {
 			a.children[i].animations.add('stopBoom', [0], 10, true);
@@ -423,28 +412,28 @@ game.States.play = function(){   //游戏程序主函数
     			a.children[i].animations.add('bBoom', [0,1,2,3], 10, true);
 				a.children[i].animations.play('bBoom');
     		}
-		};
+		}
 		score = score + 10;
-	},
+	};
 	this.stopBoom = function(a){  //爆炸结束
 		for (var i = 0; i < a.children.length; i++) {
 				a.children[i].animations.play('stopBoom');
 				a.children[i].kill();
 		};
-	},
+	};
 	this.add_enemy = function(enemyType, v, picWidth, picHeigth, life){  //添加敌机
 		this.enemy = enemyType.getFirstDead();
   	 	this.enemy.reset(rnd(0, game.width - picWidth), -1 * picHeigth);
   	 	this.enemy.body.velocity.y = v;
   	 	this.enemy.lives = life;
-	},
+	};
 	this.createEnemys = function(enemyType, number, pic){   //增加敌机集
 		enemyType.enableBody = true;
 		enemyType.physicsBodyType = Phaser.Physics.ARCADE;
 		enemyType.createMultiple(number, pic);
 		enemyType.setAll('checkWorldBounds', true);
 	    enemyType.setAll('outOfBoundsKill', true);	
-	},
+	};
 	this.gameOver = function(){  //游戏结束
 		onGameOver = true;
 		onGamePause = true;
@@ -476,7 +465,7 @@ game.States.play = function(){   //游戏程序主函数
 			}
 		});
 		showRankBtn.anchor.setTo(0.5,0.5);
-	},
+	};
 	this.gameOverAllBoom = function(){
 		if(!onGameOverF){
 			this.gameOverEveryBoom(this.enemySmalls);
@@ -489,7 +478,7 @@ game.States.play = function(){   //游戏程序主函数
 		setTimeout(function(){
 			onStopBoom = 1;
 		},200);
-	},
+	};
 	this.gameOverEveryBoom = function(a){
 			for (var i = 0; i < a.children.length; i++) {
 			a.children[i].animations.add('stopBoom', [0], 10, true);
@@ -504,7 +493,7 @@ game.States.play = function(){   //游戏程序主函数
 				a.children[i].animations.play('bBoom');
     		}
 		  }
-	},
+	};
 	this.pauseGame = function(){  //游戏暂停
 		if(!pauseGameOnce){
 			pauseGameOnce = 1;
@@ -523,13 +512,13 @@ game.States.play = function(){   //游戏程序主函数
 			this.pausePushStorage(this.booms,"booms");
 			pauseGameOnce = 0;
 		}
-	},
+	};
 	this.pausePushStorage = function(a,v){  //游戏暂停过程中将数据置于数组中
 		pauseStorage[v][1] = a.children[0].body.velocity.y;
 		for (var i = 0; i < a.children.length; i++) {
 			a.children[i].body.velocity.y = 0;
 		};
-	},
+	};
 	this.containueGame = function(){  //游戏继续
 		if(!containueGameOnce){
 			containueGameOnce = 1;
@@ -547,12 +536,12 @@ game.States.play = function(){   //游戏程序主函数
 			containueGameOnce = 0;
 		}
 		
-	},
+	};
 	this.containueGetStorage = function(a,v){  //游戏继续过程中将数据取出
 		for (var i = 0; i < a.children.length; i++) {
 			a.children[i].body.velocity.y = pauseStorage[v][1];
 		};
-	}
+	};
     this.bulletHitMiddle = function(bullet,enemy){  //子弹打中敌机
     	bullet.kill();
     	if(enemy.lives > 1){
@@ -588,7 +577,8 @@ game.States.play = function(){   //游戏程序主函数
 			},200); 
     	}
     }
-}
+};
+
 function rnd(a,b){
 		return a + Math.floor(Math.random() * (b - a));
 }
@@ -606,7 +596,7 @@ function showRank(a){
 		     	rst = {
 		     		top : json[0],
 		     		rank : json[1]
-		     	}
+		     	};
 		     	if(a == 1){
 		     		label_rank_top = game.add.text(200 , 100 , rst.top, ftStyle1);//分数显示
 		     		label_rank_top = game.add.text(200 , 136 , bestScore, ftStyle1);//分数显示
