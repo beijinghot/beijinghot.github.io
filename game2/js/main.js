@@ -528,7 +528,7 @@ game.States.play = function(){   //游戏程序主函数
 		for (var i = 0; i < a.children.length; i++) {
 			a.children[i].body.velocity.y = pauseStorage[v][1];
 		};
-	},
+	}
     this.bulletHitMiddle = function(bullet,enemy){  //子弹打中敌机
     	bullet.kill();
     	if(enemy.lives > 1){
@@ -543,7 +543,7 @@ game.States.play = function(){   //游戏程序主函数
 				}
     			score = score*1+1;
     		}else if(enemy.key == 'enemyMiddle'){
-    			enemy.animations.add('middleBoom', [0,1,2], 10, true);
+    			enemy.animations.add('middleBoom', [0,1], 10, true);
     			enemy.animations.play('middleBoom');
     			if(musicSwitch){
 					enemy2_down.play();
