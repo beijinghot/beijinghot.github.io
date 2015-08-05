@@ -300,6 +300,30 @@ game.States.play = function(){   //游戏程序主函数
 			}
 			onStopBoom = 0;
 		}
+		//键盘操作
+		if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
+	    {
+	        this.player.body.velocity.x = -200;
+	    }
+	    else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
+	    {
+	        this.player.body.velocity.x = 200;
+	    }
+	    else if (game.input.keyboard.isDown(Phaser.Keyboard.UP))
+	    {
+	        this.player.body.velocity.y = -200;
+	    }
+	    else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+	    {
+	        this.player.body.velocity.y = 200;
+	    }
+	    else
+	    {
+	    	this.player.body.velocity.x = 0;
+			this.player.body.velocity.y = 0;
+	    }
+
+
 		//碰撞检测部分
 		//player与buff
 		this.game.physics.arcade.overlap(this.player,this.booms,this.boomplus, null, this);
