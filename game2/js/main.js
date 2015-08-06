@@ -79,7 +79,7 @@ game.States.boot = function () { //移动设备适应
             this.game.scale.pageAlignHorizontally = true;
         }
         game.load.image('loading', 'assets/preloader.gif');
-        game.load.image('background', 'assets/bgpic.png'); //游戏背景
+        
     };
     this.create = function () {
         game.state.start('preload'); //跳转到资源加载页面
@@ -88,10 +88,10 @@ game.States.boot = function () { //移动设备适应
  
 game.States.preload = function () { //加载游戏资源
     this.preload = function () {
-        game.add.tileSprite(0, 0, game.width, game.height, 'background'); //背景图
         var preloadSprite = game.add.sprite(70, game.height / 2, 'loading'); //创建显示loading进度的sprite
         game.load.setPreloadSprite(preloadSprite);
         //以下为要加载的资源
+        game.load.image('background', 'assets/bgpic.png'); //游戏背景
         game.load.image('continue', 'assets/continue.png'); //继续游戏按钮
         game.load.image('gameOver', 'assets/gameOver.png'); //游戏结束框
         game.load.image('listRank', 'assets/listRank.png'); //排行榜框
