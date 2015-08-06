@@ -427,20 +427,34 @@ game.States.play = function () { //游戏程序主函数
         }, 200);
     };
     this.everyBoom = function (a) { //引爆每架敌机
-        for (var i = 0; i < a.children.length; i++) {
-            a.children[i].animations.add('stopBoom', [0], 10, true);
-            if (a.children[i].key == 'enemySmall') {
-                a.children[i].animations.add('sBoom', [0, 1], 10, true);
-                a.children[i].animations.play('sBoom');
-            } else if (a.children[i].key == 'enemyMiddle') {
-                a.children[i].animations.add('mBoom', [0, 1], 10, true);
-                a.children[i].animations.play('mBoom');
-            } else if (a.children[i].key == 'enemyBoss') {
-                a.children[i].animations.add('bBoom', [0, 1, 2, 3], 10, true);
-                a.children[i].animations.play('bBoom');
+        if (a.children[0].key == 'enemySmall') {
+            for (var i = 0; i < a.children.length; i++) {
+                a.children[i].animations.add('stopBoom', [0], 10, true);
+                if(a.children[i].alive) {
+                    a.children[i].animations.add('sBoom', [0, 1], 10, true);
+                    a.children[i].animations.play('sBoom');
+                }
             }
-        }
-        score = score + 10;
+            score += a.countLiving();           
+        } else if (a.children[0].key == 'enemyMiddle') {
+                for (i = 0; i < a.children.length; i++) {
+                    a.children[i].animations.add('stopBoom', [0], 10, true);
+                    if(a.children[i].alive) {
+                        a.children[i].animations.add('mBoom', [0, 1], 10, true);
+                        a.children[i].animations.play('mBoom');
+                    }
+                }
+            score += a.countLiving() * 2;
+          } else if (a.children[0].key == 'enemyBoss') {
+                for (i = 0; i < a.children.length; i++) {
+                    a.children[i].animations.add('stopBoom', [0], 10, true);
+                    if(a.children[i].alive) {
+                        a.children[i].animations.add('bBoom', [0, 1, 2, 3], 10, true);
+                        a.children[i].animations.play('bBoom');
+                    }
+                }
+                score += a.countLiving() * 3;
+            }      
     };
     this.stopBoom = function (a) { //爆炸结束
         for (var i = 0; i < a.children.length; i++) {
