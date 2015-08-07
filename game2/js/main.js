@@ -237,49 +237,54 @@ game.States.play = function () { //游戏程序主函数
                 onGamePause = true;
                 onGamePauseF = true;
                 game.input.onDown.add(function(e){
-                    var relativeY = (document.documentElement.clientHeight - 520) / 2;
-                    var relativeX = (document.documentElement.clientWidth - 360 ) / 2;
-                    if (relativeX < 0) {
-                        relativeX = 0;
+                    var x1 = containueBtn.left;
+                    var x2 = containueBtn.left + containueBtn.width;
+                    var y1 = containueBtn.top;
+                    var y2 = containueBtn.top + containueBtn.height;
+                    var x3 = restartBtn.left;
+                    var x4 = x3 + restartBtn.width;
+                    var y3 = restartBtn.top;
+                    var y4 = y3 + restartBtn.height;
+                    if (e.x > x1 && e.x < x2 && e.y > y1 && e.y < y2) {
+                        this.game.paused = false;
+                        onGamePause = false;
+                        containueBtn.kill();
+                        restartBtn.kill();                        
+                    } else if (e.x > x3 && e.x < x4 && e.y > y3 && e.y < y4) {
+                        this.game.paused = false;
+                        resetStatus();
+                        game.state.start('menu');
                     }
-                    if (relativeY < 0) {
-                        relativeY = 0;
-                    }
-                    var eX, eY;
-                    if (!game.device.desktop) {
-                        eX = e.touches[0].clientX;
-                        ey = e.touches[0].clientY;
-                    } else{
-                        eX = e.clientX;
-                        eY = e.clientY;
-                    }
-                    if (eX - relativeX >= game.width / 2 - 83
-                        && eX - relativeX <= game.width / 2 + 83
-                        && eY - relativeY >= game.height * 0.9 / 2 - 18
-                        && eY - relativeY <= game.height * 0.9 / 2 + 18) { 
-                            this.game.paused = false;
-                            resetStatus();
-                            game.state.start('menu');                           
-                    } else if (eX - relativeX >= game.width / 2 - 83
-                        && eX - relativeX <= game.width / 2 + 83
-                        && eY - relativeY >= game.height * 0.7 / 2 - 18
-                        && eY - relativeY <= game.height * 0.7 / 2 + 18) {
-                            this.game.paused = false;
-                            onGamePause = false;
-                            containueBtn.kill();
-                            restartBtn.kill(); 
-                         }                   
                 }, this); 
-                restartBtn = game.add.button(game.width / 2, game.height * 0.9 / 2, 'restart', function () { //重新开始按钮
-                });                   
-                containueBtn = game.add.button(game.width / 2, game.height * 0.7 / 2, 'continue', function () { //继续游戏按钮                 
-                });                
-                restartBtn.anchor.setTo(0.5, 0.5);
-                containueBtn.anchor.setTo(0.5, 0.5);
                 this.game.paused = true;
+                restartBtn = game.add.button(game.width / 2, game.height * 0.9 / 2, 'restart', function () { //重新开始按钮                       
+                });                   
+                containueBtn = game.add.button(game.width / 2, game.height * 0.7 / 2, 'continue', function () { //继续游戏按钮                                         
+                });               
+                restartBtn.anchor.setTo(0.5, 0.5);
+                containueBtn.anchor.setTo(0.5, 0.5);                
             }
-        });
- 
+        });        
+        function unpause() {
+            if (!this.game.paused)
+                return;
+            restartBtn = game.add.button(game.width / 2, game.height * 0.9 / 2, 'restart', function () { //重新开始按钮
+                this.game.paused = false;
+                resetStatus();
+                game.state.start('menu');                        
+            });                   
+            containueBtn = game.add.button(game.width / 2, game.height * 0.7 / 2, 'continue', function () { //继续游戏按钮 
+                this.game.paused = false;
+                onGamePause = false;
+                containueBtn.kill();
+                restartBtn.kill();                                         
+            });
+            // restartBtn.inputEnabled = true;                
+            restartBtn.anchor.setTo(0.5, 0.5);
+            containueBtn.anchor.setTo(0.5, 0.5);  
+            alert(restartBtn.left + " " + restartBtn.top + " " + restartBtn.width + " " + restartBtn.height);          
+        }
+        // this.game.onPause.add(unpause, this);
         //敌机**以下为CTS修改  
         //this.createEnemys(enemyType, number, pic) 敌机类型，数量，图片名称
         //this.add_enemy(enemyType, v, picWidth, picHeigth, life) 
