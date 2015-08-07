@@ -60,6 +60,7 @@ if (window.localStorage) {
         bestScore = localStorage.getItem("bestScore");
     } else {
         username = Date.parse(new Date());
+        bestScore = 0;
         localStorage.setItem("username", username);
         localStorage.setItem("bestScore", 0);
     }
@@ -79,6 +80,7 @@ game.States.boot = function () { //移动设备适应
             this.game.scale.pageAlignVertically = true;
             this.game.scale.pageAlignHorizontally = true;
         }
+        this.game.stage.backgroundColor = '#ccc';
         game.load.image('loading', 'assets/preloader.gif');
         
     };
