@@ -254,7 +254,7 @@ game.States.play = function () { //游戏程序主函数
                     } else if (e.x > x3 && e.x < x4 && e.y > y3 && e.y < y4) {
                         this.game.paused = false;
                         resetStatus();
-                        game.state.start('menu');
+                        game.state.start('play');
                     }
                 }, this); 
                 this.game.paused = true;
