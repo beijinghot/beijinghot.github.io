@@ -684,7 +684,7 @@ function resetStatus() {
     onGameOver = false;
     pauseGameOnce = false;
     containueGameOnce = false;
-    score = "0";
+    score = 0;
     bmNum = "1";
     onBoom = 0;
     bulletN = 1;
