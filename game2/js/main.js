@@ -36,6 +36,7 @@ var onGamePause = false,
     containueGameOnce = false,
     onGameOver = false,
     onGameOverF = false;
+
 //敌机出现的时间百分比,敌机的初始速度
 var intervalSmall = 0.05,
     intervalMiddle = 0.01,
@@ -67,7 +68,7 @@ if (window.localStorage) {
 }
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, 'canvas'); //实例化game
 game.States = {}; //存放状态
- 
+
 game.States.boot = function () { //移动设备适应
     this.preload = function () {
         if (!game.device.desktop) {
@@ -162,7 +163,7 @@ game.States.menu = function () { //显示开始菜单
             music.animations.play('off');
             musicSwitch = 0;
         });
-        btn.anchor.setTo(0.5, 0.5);
+        btn.anchor.setTo(0.5, 0.5);     
     }
 };
 game.States.play = function () { //游戏程序主函数
@@ -191,8 +192,7 @@ game.States.play = function () { //游戏程序主函数
         this.player.inputEnabled = true;
         this.player.input.enableDrag(); //添加触控
         game.physics.arcade.enable(this.player);
- 
- 
+        
         this.player.animations.add('fly', [0, 1], 10, true);
         this.player.animations.add('pause', [1]);
         this.player.animations.add('planeBoom', [1, 2], 10, true);
@@ -231,27 +231,41 @@ game.States.play = function () { //游戏程序主函数
                     bmNum--;
                 }
             }
- 
         });
  
         pauseBtn = game.add.button(8, 10, 'pause', function () { //暂停按钮
-            if (!onGamePause) {
+            if (!onGamePause) {              
                 onGamePause = true;
                 onGamePauseF = true;
-                restartBtn = game.add.button(game.width / 2, game.height * 0.9 / 2, 'restart', function () { //重新开始按钮
-                    resetStatus(); //重置游戏状态
-                    game.state.start('play');
-                });
+                game.input.onDown.add(function(e){
+                    var x1 = containueBtn.left;
+                    var x2 = containueBtn.left + containueBtn.width;
+                    var y1 = containueBtn.top;
+                    var y2 = containueBtn.top + containueBtn.height;
+                    var x3 = restartBtn.left;
+                    var x4 = x3 + restartBtn.width;
+                    var y3 = restartBtn.top;
+                    var y4 = y3 + restartBtn.height;
+                    if (e.x > x1 && e.x < x2 && e.y > y1 && e.y < y2) {
+                        this.game.paused = false;
+                        onGamePause = false;
+                        containueBtn.kill();
+                        restartBtn.kill();                        
+                    } else if (e.x > x3 && e.x < x4 && e.y > y3 && e.y < y4) {
+                        this.game.paused = false;
+                        resetStatus();
+                        game.state.start('menu');
+                    }
+                }, this); 
+                this.game.paused = true;
+                restartBtn = game.add.button(game.width / 2, game.height * 0.9 / 2, 'restart', function () { //重新开始按钮                       
+                });                   
+                containueBtn = game.add.button(game.width / 2, game.height * 0.7 / 2, 'continue', function () { //继续游戏按钮                                         
+                });               
                 restartBtn.anchor.setTo(0.5, 0.5);
-                containueBtn = game.add.button(game.width / 2, game.height * 0.7 / 2, 'continue', function () { //继续游戏按钮
-                    onGameContainue = true;
-                    containueBtn.kill();
-                    restartBtn.kill();
-                });
-                containueBtn.anchor.setTo(0.5, 0.5);
+                containueBtn.anchor.setTo(0.5, 0.5);                
             }
-        });
- 
+        });        
         //敌机**以下为CTS修改  
         //this.createEnemys(enemyType, number, pic) 敌机类型，数量，图片名称
         //this.add_enemy(enemyType, v, picWidth, picHeigth, life) 
@@ -287,8 +301,8 @@ game.States.play = function () { //游戏程序主函数
         if (onGamePause) { //游戏暂停检测
             if (onGamePauseF) {
                 this.pauseGame();
-                this.player.body.velocity.x = 0;
-                this.player.body.velocity.y = 0;
+                // this.player.body.velocity.x = 0;
+                // this.player.body.velocity.y = 0;
                 onGamePauseF = false;
             }
         } else {
@@ -457,6 +471,7 @@ game.States.play = function () { //游戏程序主函数
                 score += a.countLiving() * 3;
             }      
     };
+
     this.stopBoom = function (a) { //爆炸结束
         for (var i = 0; i < a.children.length; i++) {
             a.children[i].animations.play('stopBoom');
@@ -536,22 +551,23 @@ game.States.play = function () { //游戏程序主函数
             }
         }
     };
+
     this.pauseGame = function () { //游戏暂停
         if (!pauseGameOnce) {
             pauseGameOnce = 1;
-            this.player.input.disableDrag();
+            // this.player.input.disableDrag();
             if (!onGameOver) {
                 this.player.animations.play('pause');
             } else {
                 this.player.animations.play('planeBoom');
             }
-            this.background.autoScroll(0, 0);
-            this.pausePushStorage(this.bullets, "bullets");
-            this.pausePushStorage(this.enemySmalls, "enemySmalls");
-            this.pausePushStorage(this.enemyMiddles, "enemyMiddles");
-            this.pausePushStorage(this.enemyBosses, "enemyBosses");
-            this.pausePushStorage(this.doubles, "doubles");
-            this.pausePushStorage(this.booms, "booms");
+            // this.background.autoScroll(0, 0);
+            // this.pausePushStorage(this.bullets, "bullets");
+            // this.pausePushStorage(this.enemySmalls, "enemySmalls");
+            // this.pausePushStorage(this.enemyMiddles, "enemyMiddles");
+            // this.pausePushStorage(this.enemyBosses, "enemyBosses");
+            // this.pausePushStorage(this.doubles, "doubles");
+            // this.pausePushStorage(this.booms, "booms");
             pauseGameOnce = 0;
         }
     };
