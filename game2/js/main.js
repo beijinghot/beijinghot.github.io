@@ -265,26 +265,6 @@ game.States.play = function () { //游戏程序主函数
                 containueBtn.anchor.setTo(0.5, 0.5);                
             }
         });        
-        function unpause() {
-            if (!this.game.paused)
-                return;
-            restartBtn = game.add.button(game.width / 2, game.height * 0.9 / 2, 'restart', function () { //重新开始按钮
-                this.game.paused = false;
-                resetStatus();
-                game.state.start('menu');                        
-            });                   
-            containueBtn = game.add.button(game.width / 2, game.height * 0.7 / 2, 'continue', function () { //继续游戏按钮 
-                this.game.paused = false;
-                onGamePause = false;
-                containueBtn.kill();
-                restartBtn.kill();                                         
-            });
-            // restartBtn.inputEnabled = true;                
-            restartBtn.anchor.setTo(0.5, 0.5);
-            containueBtn.anchor.setTo(0.5, 0.5);  
-            alert(restartBtn.left + " " + restartBtn.top + " " + restartBtn.width + " " + restartBtn.height);          
-        }
-        // this.game.onPause.add(unpause, this);
         //敌机**以下为CTS修改  
         //this.createEnemys(enemyType, number, pic) 敌机类型，数量，图片名称
         //this.add_enemy(enemyType, v, picWidth, picHeigth, life) 
